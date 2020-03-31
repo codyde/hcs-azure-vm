@@ -35,10 +35,3 @@ resource "azurerm_network_security_group" "netallow" {
   }
 
 }
-
-resource "azurerm_public_ip" "vm1" {
-  name                = "hcsclient04ip"
-  location            = "West US 2"
-  resource_group_name = data.azurerm_resource_group.this.name
-  allocation_method   = "Static"
-}
