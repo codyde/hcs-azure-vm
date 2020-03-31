@@ -17,7 +17,7 @@ data "azurerm_subnet" "this" {
   resource_group_name  = data.azurerm_resource_group.this.name
 }
 
-resource "azurerm_network_interface" "example" {
+resource "azurerm_network_interface" "this1" {
   name                = "externalnic"
   location            = data.azurerm_resource_group.this.location
   resource_group_name = data.azurerm_resource_group.this.name
@@ -26,7 +26,7 @@ resource "azurerm_network_interface" "example" {
     name                          = "internal"
     subnet_id                     = data.azurerm_subnet.this.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.this.id
+    public_ip_address_id          = azurerm_public_ip.this1.id
   }
 }
 
@@ -49,12 +49,13 @@ resource "azurerm_network_security_group" "netallow" {
 
 }
 
-resource "azurerm_public_ip" "this" {
+resource "azurerm_public_ip" "this1" {
   name                = "hcsclient04ip"
   location            = "West US 2"
   resource_group_name = data.azurerm_resource_group.this.name
   allocation_method   = "Static"
 }
+
 
 resource "azurerm_linux_virtual_machine" "hcsclient04" {
   name                = "hcsclient04"
@@ -63,7 +64,50 @@ resource "azurerm_linux_virtual_machine" "hcsclient04" {
   size                = "Standard_B1ms"
   admin_username      = "codyhc"
   network_interface_ids = [
-    azurerm_network_interface.example.id,
+    azurerm_network_interface.this1.id,
+  ]
+
+  admin_ssh_key {
+    username   = "codyhc"
+    public_key = var.sshkey
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_id = var.image
+} 
+
+resource "azurerm_public_ip" "this2" {
+  name                = "hcsclient05ip"
+  location            = "West US 2"
+  resource_group_name = data.azurerm_resource_group.this.name
+  allocation_method   = "Static"
+}
+
+resource "azurerm_network_interface" "this2" {
+  name                = "externalnic"
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = data.azurerm_subnet.this.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.this2.id
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "hcsclient05" {
+  name                = "hcsclient05"
+  resource_group_name = data.azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
+  size                = "Standard_B1ms"
+  admin_username      = "codyhc"
+  network_interface_ids = [
+    azurerm_network_interface.this2.id,
   ]
 
   admin_ssh_key {
