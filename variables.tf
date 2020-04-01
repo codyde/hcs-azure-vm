@@ -7,5 +7,9 @@ variable "image" {
 }
 
 variable "nomadimage" {
-    description = "Nomad image for Azure deployment"
+    description = "Nomad Image for Azure deployment"
+}
+
+variable "nomadclientimage" {
+    description = "Nomad Client Image for Azure deployment"
 }
