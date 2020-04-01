@@ -209,7 +209,7 @@ resource "azurerm_linux_virtual_machine" "hcsnomad02" {
 } 
 
 resource "azurerm_public_ip" "nomad3" {
-  name                = "hcsnomad02ip"
+  name                = "hcsnomad03ip"
   location            = "West US 2"
   resource_group_name = data.azurerm_resource_group.this.name
   allocation_method   = "Static"
