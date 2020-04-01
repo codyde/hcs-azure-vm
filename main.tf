@@ -122,6 +122,8 @@ resource "azurerm_linux_virtual_machine" "hcsclient05" {
   source_image_id = var.image
 } 
 
+/*
+
 resource "azurerm_public_ip" "nomad1" {
   name                = "hcsnomad01ip"
   location            = "West US 2"
@@ -379,3 +381,4 @@ resource "azurerm_linux_virtual_machine" "hcsnomadcl03" {
 
   source_image_id = var.nomadclientimage
 } 
+/*
