@@ -95,7 +95,7 @@ resource "azurerm_linux_virtual_machine" "hcsapi01" {
   size                = "Standard_B1ms"
   admin_username      = "codyhc"
   network_interface_ids = [
-    azurerm_network_interface.this1.id,
+    azurerm_network_interface.this2.id,
   ]
 
   admin_ssh_key {
