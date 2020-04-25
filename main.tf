@@ -80,6 +80,19 @@ resource "azurerm_linux_virtual_machine" "hcsweb01" {
   source_image_id = var.image
 } 
 
+resource "azurerm_network_interface" "this2" {
+  name                = "externalnic2"
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = data.azurerm_subnet.this.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.this2.id
+  }
+}
+
 resource "azurerm_public_ip" "this2" {
   name                = "hcsapi01ip"
   location            = "West US 2"
