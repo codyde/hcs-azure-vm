@@ -79,34 +79,3 @@ resource "azurerm_linux_virtual_machine" "hcsweb01" {
 
   source_image_id = var.image
 } 
-
-resource "azurerm_public_ip" "this2" {
-  name                = "hcsapi01ip"
-  location            = "West US 2"
-  resource_group_name = data.azurerm_resource_group.this.name
-  allocation_method   = "Static"
-}
-
-
-resource "azurerm_linux_virtual_machine" "hcsapi01" {
-  name                = "hcsapi01"
-  resource_group_name = data.azurerm_resource_group.this.name
-  location            = data.azurerm_resource_group.this.location
-  size                = "Standard_B1ms"
-  admin_username      = "codyhc"
-  network_interface_ids = [
-    azurerm_network_interface.this2.id,
-  ]
-
-  admin_ssh_key {
-    username   = "codyhc"
-    public_key = var.sshkey
-  }
-
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-  }
-
-  source_image_id = var.image
-} 
