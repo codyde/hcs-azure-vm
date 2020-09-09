@@ -123,3 +123,4 @@ resource "azurerm_linux_virtual_machine" "hcsapi01" {
   source_image_id = var.image
 } 
 
+#wonder what will happen
